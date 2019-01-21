@@ -1,43 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Alura.ListaLeitura;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Alura.WebAPI.Models;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace Alura.WebAPI.Controllers
+namespace Alura.ListaLeitura.WebApp.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
+        private readonly IRepository<Livro> _repo;
+
+        public HomeController(IRepository<Livro> repository)
+        {
+            _repo = repository;
+        }
+
+        private IEnumerable<LivroApi> ListaDoTipo(TipoListaLeitura tipo)
+        {
+            return _repo.All
+                .Where(l => l.Lista == tipo)
+                .Select(l => l.ToApi())
+                .ToList();
+        }
+
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var model = new HomeViewModel
+            {
+                ParaLer = ListaDoTipo(TipoListaLeitura.ParaLer),
+                Lendo = ListaDoTipo(TipoListaLeitura.Lendo),
+                Lidos = ListaDoTipo(TipoListaLeitura.Lidos)
+            };
+            return View(model);
         }
     }
 }
