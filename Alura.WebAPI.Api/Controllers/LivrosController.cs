@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 
-namespace Alura.WebAPI.WebApp.Api
+namespace Alura.ListaLeitura.Api.Controllers
 {
     [Authorize]
     [ApiController]
