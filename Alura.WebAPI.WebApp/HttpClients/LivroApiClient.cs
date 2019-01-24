@@ -28,8 +28,8 @@ namespace Alura.WebAPI.WebApp.HttpClients
         {
             HttpResponseMessage responseMessage = await _httpClient.GetAsync($"livros/{id}");
             responseMessage.EnsureSuccessStatusCode();
-
-            return await responseMessage.Content.ReadAsAsync<LivroApi>();
+            var retorno = await responseMessage.Content.ReadAsStringAsync();
+            return null;
         }
     }
 }

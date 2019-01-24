@@ -10,7 +10,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Alura.WebAPI.WebApp.Formatters;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using Alura.WebAPI.WebApp.HttpClients;
 
 namespace Alura.ListaLeitura.WebApp
 {
@@ -50,10 +49,6 @@ namespace Alura.ListaLeitura.WebApp
             services.AddMvc(options => {
                 options.OutputFormatters.Add(new LivroCsvFormatter());
             }).AddXmlSerializerFormatters();
-
-            services.AddHttpClient<LivroApiClient>(cliente => {
-                cliente.BaseAddress = new Uri("http://localhost:64466/api/");
-                });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
